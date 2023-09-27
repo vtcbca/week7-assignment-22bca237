@@ -1,0 +1,82 @@
+Create CSV file for product selling for 6 Months ( Prod_No | Prod_Name | Jan | Feb | Mar | Apr | May | Jun) for 5 products.
+
+Perform following operations.
+
+1. Add 12 Records. Take input from user.
+-->
+import csv
+import pandas as pd
+header=['prod_no','prod_name','jan','feb','mar','apr','may','jun']
+with open("D:\\isita\\22BCA237\\DB&PYTHON\\PRODUCT_SELLING.csv",'w',newline="")as csvfile:
+    obj=csv.writer(csvfile)
+    obj.writerow(header)
+    obj.writerows(L)
+L=[]
+for i in range(12):
+    prod_no=input("Enter the product no.: ")
+    prod_name=input("Enter the product name: ")
+    jan=int(input("Enter the sales of January month:"))
+    feb=int(input("Enter the sales of Feburary month:"))
+    mar=int(input("Enter the sales of March month:"))
+    apr=int(input("Enter the sales of April month:"))
+    may=int(input("Enter the sales of May month:"))
+    jun=int(input("Enter the sales of June month:"))
+    t=(prod_no,prod_name,jan,feb,mar,apr,may,jun)
+    L.append(t)
+
+2. Create dataframe.
+-->df=pd.read_csv(r"D:\isita\22BCA237\DB&PYTHON\PRODUCT_SELLING.csv")
+     df
+
+3. Change Column Name Product No, Product Name, January, February, March, April, May, June.
+-->df.rename(columns={"prod_no": "PRODUCT_NO", "prod_name": "PRODUCT_NAME", "jan": "JANUARY", "feb": "FEBRUARY", 
+                   "mar": "MARCH", "apr": "APRIL", "may": "MAY", "jun": "JUNE"},inplace=True)
+     df
+
+4. Add column "Total Sell" to count total of all month and "Average Sell"
+-->df['TOTAL_SALES']=df.iloc[:,2:8].sum(axis=1)
+     df['AVERAGE_SALES']=df.iloc[:,2:8].mean(axis=1)
+     df
+
+5. Add 2 row at the end.
+-->
+row12=['P13','NOTEBOOK',700,710,720,730,730,750,3610,601.67]
+row13=['P14','CALC',70,75,72,73,73,75,438,73]
+df.loc[len(df)]=row12
+df.loc[len(df)]=row13
+df
+
+6. Add 2 row after 3rd row.
+-->
+df.loc[2.5]=['P15','PENCIL',500,510,520,530,560,550,3170,528.33]
+df.sort_index().reset_index(drop=True)
+df.loc[3.5]=['P16','FOLDER',400,410,420,430,460,450,2570,428.33]
+df.sort_index().reset_index(drop=True)
+df
+
+7. Print first 5 row.
+-->df.head()
+
+8. Print Last 5 row.
+-->df.tail()
+
+9. Print row 6 to 10.
+-->df.iloc[6:11]
+
+10. Print only product name.
+-->df.PRODUCT_NAME
+
+11. Print sell of January month with product id and product name.
+-->df[['PRODUCT_NO','PRODUCT_NAME','JANUARY']]
+
+12. Print only those product id , product name where january sell is > 5000 and February sell is >8000
+-->df[(df['JANUARY']>5000)&(df['FEBRUARY']>8000)][['PRODUCT_NO','PRODUCT_NAME']]
+
+13. Print record in sorting order of Product name.
+-->pd.DataFrame(df.PRODUCT_NAME.sort_values())
+
+14. Display only odd index number column record.
+-->df.iloc[:,::2]
+
+15. Display alternate row.
+-->df.iloc[::2]
